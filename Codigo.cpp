@@ -16,10 +16,14 @@ class Lexico
     public:
           Lexico(const char *unNombreFichero, int una_traza=0);
           ~Lexico();
+          // primera parte
           string siguienteToken(void);
           int lineaActual(void){return n1; }
           int existeTraza(void){if(traza)return 1; else return 0;}
           void errores(int codigo);
+          
+          // Segunda arte
+          void programa (void);
 };
 
 Lexico::~Lexico()
@@ -105,10 +109,24 @@ string Lexico::siguienteToken(void)
      
     ) return palabra;
     else {
-     //cout<<"Error Lexico: Token Desconocido "<<palabra<<endl;
-          system("sleep 1");
-          //exit(-4); 
-	  }
+		int l = palabra.length(); 
+		string es = "Nada";
+		for(int i = 0; i < l;i++){
+			if( (char)palabra[i] >= '0' and (char)palabra[i] <= '9'){
+			if(es == "Nada")
+			es = "Numero";
+			}
+			if((char)palabra[i] >= 'A' and (char)palabra[i] <= 'z' ){
+			if(es == "Nada")
+			es = "Variable";
+			else if(es == "Numero")
+			es = "QuienSabe";
+			}
+		}
+		palabra = es;	
+        system("sleep 1");
+        return palabra;
+       }
 	return palabra;
 }
 void Lexico::errores(int codigo){
@@ -116,20 +134,40 @@ cout<<"LINEA "<<lineaActual();
 cout<<" ERROR SINTACTICO "<<codigo;
 switch (codigo)
 {
-	case 1 :cout<<" :Falta un main ;"<<endl;break;
-	
+	case 1 :cout<<" :Falta un main "<<endl;break;
+	case 2 :cout<<" :Falta un { inicial "<<endl;break;
 	}
 }
+
+
+//Segund parte
+
+
+void Lexico::programa (void){
+	string token = siguienteToken();
+	if(token == "main"){
+		token = siguienteToken();
+		if(token == "{"){
+			cout<<"programa funcina hasta el momento";
+			}
+		else
+			errores(2);
+		}
+	else
+		errores(1);
+	}
+
 int main()
 {
   string token;
-  Lexico obj("lila.txt",1);
-  if(obj.existeTraza())
+  Lexico pollo("lila.txt",1);
+  if(pollo.existeTraza())
          cout<<"INICIO DE ANALISIS LEXICO"<<endl;
-         
-  while((token=obj.siguienteToken()) != "}"){
+  // pollo.programa();     
+  while((token=pollo.siguienteToken()) != "}"){
 		cout<<"Token: "<<token<<endl;
 		system("sleep 1");
 		}
+   
   return 0;
 }
