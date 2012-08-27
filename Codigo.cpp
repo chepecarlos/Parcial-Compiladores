@@ -47,15 +47,28 @@ string Lexico::siguienteToken(void)
 	 char car;
      string palabra = "";
      string palabra_aux;
+     do{
      while((car=(char)fgetc(entrada))!=EOF)
      {
           if(car==' '){ break;}
           if(car=='\t'){ break;}
-          if(car=='\n'){++n1; break;}
-          if(car=='\''){ palabra = "\'";break;}
+          if(car=='\n' ){ ++n1; break;}
+          if(car=='\''){ 
+			  if(palabra == "")
+			  palabra = "\'";
+			  else
+			  fseek(entrada,-1,SEEK_CUR);
+			  break;}
+		  if(car == ';'){
+			  if(palabra == "")
+			  palabra =";";
+			  else
+			  fseek(entrada,-1,SEEK_CUR);
+			  break;}	  
           palabra_aux = car;
           palabra = palabra + palabra_aux;
     }
+	}while(palabra == "");
      
     if(
     palabra == "main" ||
@@ -92,7 +105,7 @@ string Lexico::siguienteToken(void)
      
     ) return palabra;
     else {
-     cout<<"Error Lexico: Token Desconocido "<<palabra<<endl;
+     //cout<<"Error Lexico: Token Desconocido "<<palabra<<endl;
           system("sleep 1");
           //exit(-4); 
 	  }
