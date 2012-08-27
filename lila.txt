@@ -1,13 +1,13 @@
 main
 {
-int nota1
-int nota2
-int nota3
-int promedio
-promedio = ( nota1 + nota2 + nota3 ) / 3
-if ( promedio == 10 )
-printf 's'
-else
-printf 'n'
+int nota1;
+int nota2;
+int nota3;
+int promedio;
+promedio = ( nota1 + nota2 + nota3 ) / 3;
+if ( promedio == 10 );
+printf 's';
+else;
+printf 'n';
 }
 
